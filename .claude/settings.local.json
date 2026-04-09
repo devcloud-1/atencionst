@@ -11,7 +11,16 @@
       "Bash(npm install:*)",
       "Bash(npx shadcn@latest init --yes --base-color neutral --css-variables)",
       "Bash(npx shadcn@latest init --yes)",
-      "Bash(npx shadcn@latest init -d)"
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(npx shadcn@latest add card badge select textarea input label toast)",
+      "Bash(npx shadcn@latest add sonner)",
+      "Bash(npm run:*)",
+      "Bash(npx shadcn@latest add badge card input label textarea select --overwrite)",
+      "Bash(openssl rand:*)",
+      "Bash(curl -s http://localhost:3000/api/stats -H \"Cookie: admin_session=ed722ed90a9f938973e2688d0db85f6cc75b55f82879884f98f2309ecec96290\")",
+      "Bash(kill %1)",
+      "Bash(curl:*)",
+      "Bash(gh repo:*)"
     ]
   }
 }
