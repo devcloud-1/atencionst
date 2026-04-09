@@ -25,7 +25,8 @@
       "Bash(vercel --prod)",
       "Bash(vercel logs:*)",
       "Bash(vercel --prod --force)",
-      "Bash(vercel inspect:*)"
+      "Bash(vercel inspect:*)",
+      "Bash(vercel ls:*)"
     ]
   }
 }

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
-  ChevronLeft, ChevronRight, Trash2, ExternalLink, User, Phone, Mail, SlidersHorizontal
+  ChevronLeft, ChevronRight, Trash2, ExternalLink, User, Phone, Mail, SlidersHorizontal, Download
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
@@ -51,6 +51,41 @@ export function ReviewTable() {
 
   useEffect(() => { fetchReviews() }, [fetchReviews])
 
+  const handleExportCSV = async () => {
+    const params = new URLSearchParams({ page: '1', limit: '9999' })
+    if (filterType !== 'all') params.set('visit_type', filterType)
+    if (filterRating !== 'all') params.set('rating', filterRating)
+    if (filterFrom) params.set('from', filterFrom)
+    if (filterTo) params.set('to', filterTo)
+
+    const res = await fetch(`/api/reviews?${params}`)
+    const data = await res.json()
+    const rows: Review[] = data.reviews ?? []
+
+    const headers = ['Fecha', 'Calificación', 'Tipo', 'Comentario', 'Nombre', 'Teléfono', 'Email', 'Fue a Google']
+    const csv = [
+      headers.join(','),
+      ...rows.map((r) => [
+        format(new Date(r.created_at), 'dd/MM/yyyy HH:mm'),
+        r.rating,
+        r.visit_type === 'reparacion' ? 'Reparación' : 'Consulta',
+        `"${(r.comment ?? '').replace(/"/g, '""')}"`,
+        `"${(r.name ?? '').replace(/"/g, '""')}"`,
+        r.phone ?? '',
+        r.email ?? '',
+        r.google_redirected ? 'Sí' : 'No',
+      ].join(',')),
+    ].join('\n')
+
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `resenas_${format(new Date(), 'yyyy-MM-dd')}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const handleDelete = async (id: string) => {
     if (!confirm('¿Eliminar esta reseña?')) return
     await fetch(`/api/reviews/${id}`, { method: 'DELETE' })
@@ -64,14 +99,24 @@ export function ReviewTable() {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium">Todas las reseñas ({total})</CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowFilters(!showFilters)}
-            className="gap-1 text-xs"
-          >
-            <SlidersHorizontal className="w-3 h-3" /> Filtros
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCSV}
+              className="gap-1 text-xs"
+            >
+              <Download className="w-3 h-3" /> CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowFilters(!showFilters)}
+              className="gap-1 text-xs"
+            >
+              <SlidersHorizontal className="w-3 h-3" /> Filtros
+            </Button>
+          </div>
         </div>
 
         {showFilters && (

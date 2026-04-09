@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyAdminSession } from '@/lib/auth'
+import { sendNegativeReviewAlert } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
@@ -30,6 +31,18 @@ export async function POST(req: NextRequest) {
   if (error) {
     console.error('Supabase insert error:', error)
     return NextResponse.json({ error: 'Error al guardar reseña' }, { status: 500 })
+  }
+
+  // Alerta por email si la calificación es negativa (1 o 2 estrellas)
+  if (rating <= 2 && process.env.RESEND_API_KEY && process.env.ALERT_EMAIL) {
+    sendNegativeReviewAlert({
+      rating,
+      visit_type,
+      comment: comment?.trim() || null,
+      name: name?.trim() || null,
+      phone: phone?.trim() || null,
+      email: email?.trim() || null,
+    }).catch((err) => console.error('Email alert error:', err))
   }
 
   return NextResponse.json({ id: data.id })

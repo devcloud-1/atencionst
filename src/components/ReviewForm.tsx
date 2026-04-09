@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { StarRating } from './StarRating'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,8 +14,16 @@ import type { VisitType } from '@/types'
 
 export function ReviewForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [rating, setRating] = useState(0)
   const [visitType, setVisitType] = useState<VisitType | null>(null)
+
+  useEffect(() => {
+    const type = searchParams.get('type')
+    if (type === 'consulta' || type === 'reparacion') {
+      setVisitType(type)
+    }
+  }, [searchParams])
   const [comment, setComment] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
