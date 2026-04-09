@@ -20,7 +20,7 @@ export function ReviewForm() {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [showOptional, setShowOptional] = useState(false)
+  const [showOptional, setShowOptional] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -150,7 +150,7 @@ export function ReviewForm() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+58 412 000 0000"
+                  placeholder="+56 9 1234 5678"
                   maxLength={20}
                   className="mt-1"
                 />
