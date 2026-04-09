@@ -23,7 +23,9 @@
       "Bash(gh repo:*)",
       "Bash(vercel env:*)",
       "Bash(vercel --prod)",
-      "Bash(vercel logs:*)"
+      "Bash(vercel logs:*)",
+      "Bash(vercel --prod --force)",
+      "Bash(vercel inspect:*)"
     ]
   }
 }

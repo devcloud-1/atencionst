@@ -3,6 +3,7 @@ import { verifyAdminSession } from '@/lib/auth'
 import { AdminStats } from '@/components/AdminStats'
 import { ReviewTable } from '@/components/ReviewTable'
 import { LogoutButton } from '@/components/LogoutButton'
+import { QRPanel } from '@/components/QRPanel'
 
 export const metadata = {
   title: 'Panel Admin — Servicio Técnico Thermomix',
@@ -26,6 +27,7 @@ export default async function AdminPage() {
 
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
         <AdminStats />
+        <QRPanel />
         <ReviewTable />
       </div>
     </main>
