@@ -20,7 +20,10 @@
       "Bash(curl -s http://localhost:3000/api/stats -H \"Cookie: admin_session=ed722ed90a9f938973e2688d0db85f6cc75b55f82879884f98f2309ecec96290\")",
       "Bash(kill %1)",
       "Bash(curl:*)",
-      "Bash(gh repo:*)"
+      "Bash(gh repo:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel --prod)",
+      "Bash(vercel logs:*)"
     ]
   }
 }
