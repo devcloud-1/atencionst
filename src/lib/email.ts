@@ -1,7 +1,5 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 interface AlertEmailParams {
   rating: number
   visit_type: string
@@ -12,6 +10,7 @@ interface AlertEmailParams {
 }
 
 export async function sendNegativeReviewAlert(params: AlertEmailParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const { rating, visit_type, comment, name, phone, email } = params
 
   const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating)
